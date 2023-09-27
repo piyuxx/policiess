@@ -11,6 +11,20 @@ Globals:
     Timeout: 3
 
 Resources:
+  MyApi:
+    Type: AWS::Serverless::HttpApi
+    Properties:
+      CorsConfiguration:
+        AllowMethods:
+          - 'POST'
+          - 'GET'
+          - 'PUT'
+          - 'DELETE'
+        AllowHeaders:
+          - '*'
+        AllowOrigins:
+          - '*' # Replace with your frontend app's domain
+
   HelloWorldFunction:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
     Properties:
@@ -22,8 +36,10 @@ Resources:
       ReservedConcurrentExecutions: 10 
       Events:
         HelloWorld:
-          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+          Type: HttpApi # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
           Properties:
+            ApiId:
+              Ref: MyApi
             Path: /hello
             Method: get
 
@@ -41,8 +57,10 @@ Resources:
             TableName: !Ref TodoTable 
       Events:
         HelloWorld:
-          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+          Type: HttpApi # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
           Properties:
+            ApiId:
+              Ref: MyApi
             Path: /create
             Method: post
   
@@ -60,8 +78,10 @@ Resources:
             TableName: !Ref TodoTable 
       Events:
         HelloWorld:
-          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+          Type: HttpApi # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
           Properties:
+            ApiId:
+              Ref: MyApi
             Path: /delete/{id}
             Method: delete
   getWorldFunction:
@@ -78,8 +98,10 @@ Resources:
             TableName: !Ref TodoTable 
       Events:
         HelloWorld:
-          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+          Type: HttpApi # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
           Properties:
+            ApiId:
+              Ref: MyApi
             Path: /get/{id}
             Method: get   
   getWorldAllFunction:
@@ -96,8 +118,10 @@ Resources:
             TableName: !Ref TodoTable 
       Events:
         HelloWorld:
-          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+          Type: HttpApi # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
           Properties:
+            ApiId:
+              Ref: MyApi
             Path: /getAll
             Method: get      
 Outputs:
