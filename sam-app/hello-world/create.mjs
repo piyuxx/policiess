@@ -30,7 +30,7 @@ const tableName = "MyTable";
 export const lambdaHandler = async (event, context) => {
     try {
         const body=JSON.parse(event.body)
-        const policy=dynamo.send(
+         dynamo.send(
             new PutCommand({
                 TableNAme:tableName,
                 Item:{
@@ -41,9 +41,7 @@ export const lambdaHandler = async (event, context) => {
         )
         return {
             'statusCode': 200,
-            'body': JSON.stringify({
-                message: 'hello world',
-            })
+             body
         }
     } catch (err) {
         console.log(err);
