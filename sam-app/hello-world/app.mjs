@@ -25,7 +25,7 @@ const dynamo = DynamoDBDocumentClient.from(client);
 
 const tableName = "http-crud-tutorial-items";
 
-export const lambdaHandler = async (event, context) => {
+export const l = async (event, context) => {
     try {
         return {
             'statusCode': 200,
