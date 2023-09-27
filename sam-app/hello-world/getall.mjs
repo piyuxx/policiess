@@ -30,17 +30,16 @@ const tableName = "MyTable";
 export const l = async (event, context) => {
     try {
         
-          const body = await dynamo.send(
-            new ScanCommand({
-              TableName: tableName
-            })
-          );
-          // body = body.Item;
+      const body = await dynamo.send(
+        new ScanCommand({ TableName: tableName })
+      );
+      // body = body.Items;
+
    
-        return {
-            statusCode: 200,
-            body: JSON.stringify(body.Items)
-        }
+      return {
+          statusCode: 200,
+          body: JSON.stringify(body.Items)
+      }
     } catch (err) {
         console.log(err);
         return err;

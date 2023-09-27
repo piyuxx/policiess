@@ -31,13 +31,13 @@ export const lambdaHandler = async (event, context) => {
     try {
         const body=JSON.parse(event.body)
         const policy=dynamo.send(
-new PutCommand({
-    TableNAme:tableName,
-    ITEM:{
-        id:parseInt(body.id),
-        name:body.name,
-    }
-})
+            new PutCommand({
+                TableNAme:tableName,
+                Item:{
+                    id:parseInt(body.id),
+                    name:body.name,
+                }
+            })
         )
         return {
             'statusCode': 200,
