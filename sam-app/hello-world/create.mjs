@@ -20,7 +20,7 @@ import {
 } from "@aws-sdk/lib-dynamodb";
 
 const client = new DynamoDBClient({
-    endpoint:"https://8000-piyuxx-policiess-6dvp5s05n36.ws-us105.gitpod.io"
+    endpoint:"https://8000-piyuxx-policiess-h3ys5erlv1r.ws-us105.gitpod.io"
 });
 
 const dynamo = DynamoDBDocumentClient.from(client);
@@ -30,9 +30,9 @@ const tableName = "MyTable";
 export const lambdaHandler = async (event, context) => {
     try {
         const body=JSON.parse(event.body)
-         dynamo.send(
+        await dynamo.send(
             new PutCommand({
-                TableNAme:tableName,
+                TableName:tableName,
                 Item:{
                     id:parseInt(body.id),
                     name:body.name,
@@ -40,6 +40,15 @@ export const lambdaHandler = async (event, context) => {
             })
         )
         return {
+            headers: {
+                // You can add CORS headers here if you're not handling CORS at the API Gateway level
+                "Access-Control-Allow-Origin": "*", // Adjust this to limit to specific origins in production
+                "Access-Control-Allow-Headers": "*",
+                "Access-Control-Allow-Methods": "*",
+                "Accept":'*/*',
+                "Content-Type":'application/json'
+      
+              },
             'statusCode': 200,
              body
         }

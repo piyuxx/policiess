@@ -9,7 +9,7 @@ Description: >
 Globals:
   Function:
     Timeout: 3
-
+  
 Resources:
   MyApi:
     Type: AWS::Serverless::HttpApi
@@ -23,7 +23,7 @@ Resources:
         AllowHeaders:
           - '*'
         AllowOrigins:
-          - '*' # Replace with your frontend app's domain
+          - 'http://localhost:3000/' # Replace with your frontend app's domain
 
   HelloWorldFunction:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
@@ -54,15 +54,13 @@ Resources:
       ReservedConcurrentExecutions: 10 
       Policies: 
         - DynamoDBCrudPolicy:
-            TableName: !Ref TodoTable 
+            TableName: !Ref MyTble
       Events:
         HelloWorld:
-          Type: HttpApi # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
           Properties:
-            ApiId:
-              Ref: MyApi
-            Path: /create
-            Method: post
+           Path: /create
+           Method: post
   
   deleteWorldFunction:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
@@ -75,13 +73,11 @@ Resources:
       ReservedConcurrentExecutions: 10 
       Policies: 
         - DynamoDBCrudPolicy:
-            TableName: !Ref TodoTable 
+            TableName: !Ref MyTable 
       Events:
         HelloWorld:
-          Type: HttpApi # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
           Properties:
-            ApiId:
-              Ref: MyApi
             Path: /delete/{id}
             Method: delete
   getWorldFunction:
@@ -95,13 +91,11 @@ Resources:
       ReservedConcurrentExecutions: 10 
       Policies: 
         - DynamoDBCrudPolicy:
-            TableName: !Ref TodoTable 
+            TableName: !Ref MyTable 
       Events:
         HelloWorld:
-          Type: HttpApi # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
           Properties:
-            ApiId:
-              Ref: MyApi
             Path: /get/{id}
             Method: get   
   getWorldAllFunction:
@@ -115,15 +109,15 @@ Resources:
       ReservedConcurrentExecutions: 10 
       Policies: 
         - DynamoDBCrudPolicy:
-            TableName: !Ref TodoTable 
+            TableName: !Ref MyTable 
       Events:
         HelloWorld:
           Type: HttpApi # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
           Properties:
-            ApiId:
-              Ref: MyApi
-            Path: /getAll
-            Method: get      
+              ApiId:
+               Ref: MyApi
+              Path: /getAll
+              Method: get      
 Outputs:
   # ServerlessRestApi is an implicit API created out of Events key under Serverless::Function
   # Find out more about other implicit resources you can reference within SAM
